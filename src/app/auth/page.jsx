@@ -1,4 +1,6 @@
-import { Button } from "../../components/ui/button";
+import { getServerSession } from "next-auth";
+import GithubSignin from "../../components/ui/GithubSignin";
+import SigninForm from "../../components/ui/SinginForm";
 import {
   Card,
   CardContent,
@@ -6,12 +8,16 @@ import {
   CardHeader,
   CardTitle,
 } from "../../components/ui/card";
-import { Input } from "../../components/ui/input";
-import { Label } from "../../components/ui/label";
-import { Github, Mail } from "lucide-react";
 import React from "react";
+import { authOptions } from "../utils/auth";
+import { redirect } from "next/navigation";
 
-const page = () => {
+const page = async () => {
+  const session = await getServerSession(authOptions);
+
+  if (session) {
+    return redirect("/");
+  }
   return (
     <div className="w-screen h-screen flex justify-center items-center">
       <Card>
@@ -22,18 +28,8 @@ const page = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form action="">
-            <Label>Email</Label>
-            <Input name="email" placeholder="example@email.com" />
-            <Button className="mt-3 w-full" variant="secondary">
-              <Mail className="w-4 h-4 mr-1" />
-              Login with email
-            </Button>
-          </form>
-          <Button className="mt-6 w-full">
-            <Github className="w-4 h-4 mr-1" />
-            Login with github
-          </Button>
+          <SigninForm />
+          <GithubSignin />
         </CardContent>
       </Card>
     </div>

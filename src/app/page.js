@@ -2,7 +2,8 @@ import { Button } from "../components/ui/button";
 import { LogInIcon } from "lucide-react";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
-import authOptions from "./utils/auth";
+import { authOptions } from "./utils/auth";
+import LogoutButton from "../components/ui/LogoutButton";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -13,7 +14,7 @@ export default async function Home() {
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit?</p>
         <p className="mb-1">Go authenticate and make more special something</p>
         {session ? (
-          <Button variant="secondary">Logout</Button>
+          <LogoutButton/>
         ) : (
           <Link href="/auth">
             <Button variant="secondary">
